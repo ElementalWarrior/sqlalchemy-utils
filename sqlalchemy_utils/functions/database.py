@@ -1,7 +1,7 @@
 import itertools
 import os
 from collections.abc import Mapping, Sequence
-from copy import deepcopy as copy
+from copy import copy
 
 import sqlalchemy as sa
 from sqlalchemy.engine.url import make_url
@@ -458,7 +458,8 @@ def database_exists(url):
         return header[:16] == b'SQLite format 3\x00'
 
     url = copy(make_url(url))
-    database, url.database = url.database, None
+    database = url.database
+    url.set(database=database)
     engine = sa.create_engine(url)
 
     if engine.dialect.name == 'postgresql':
