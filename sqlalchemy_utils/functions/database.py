@@ -1,7 +1,7 @@
 import itertools
 import os
 from collections.abc import Mapping, Sequence
-from copy import copy
+from copy import deepcopy as copy
 
 import sqlalchemy as sa
 from sqlalchemy.engine.url import make_url
