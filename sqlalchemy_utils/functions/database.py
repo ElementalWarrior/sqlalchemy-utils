@@ -459,7 +459,7 @@ def database_exists(url):
 
     url = copy(make_url(url))
     database = url.database
-    url._replace(database=None)
+    url = url._replace(database=None)
     engine = sa.create_engine(url)
 
     if engine.dialect.name == 'postgresql':
@@ -484,7 +484,7 @@ def database_exists(url):
         engine = None
         text = 'SELECT 1'
         try:
-            url.set(database=database)
+            url = url.set(database=database)
             engine = sa.create_engine(url)
             result = engine.execute(text)
             result.close()
@@ -524,11 +524,11 @@ def create_database(url, encoding='utf8', template=None):
     database = url.database
 
     if url.drivername.startswith('postgres'):
-        url.set(database='postgres')
+        url = url.set(database='postgres')
     elif url.drivername.startswith('mssql'):
-        url.set(database='master')
+        url = url.set(database='master')
     elif not url.drivername.startswith('sqlite'):
-        url._replace(database=None)
+        url = url._replace(database=None)
 
     if url.drivername == 'mssql+pyodbc':
         engine = sa.create_engine(url, connect_args={'autocommit': True})
@@ -600,11 +600,11 @@ def drop_database(url):
     database = url.database
 
     if url.drivername.startswith('postgres'):
-        url.set(database='postgres')
+        url = url.set(database='postgres')
     elif url.drivername.startswith('mssql'):
-        url.set(database='master')
+        url = url.set(database='master')
     elif not url.drivername.startswith('sqlite'):
-        url._replace(database=None)
+        url = url._replace(database=None)
 
     if url.drivername == 'mssql+pyodbc':
         engine = sa.create_engine(url, connect_args={'autocommit': True})
